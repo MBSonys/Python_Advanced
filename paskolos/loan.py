@@ -1,16 +1,16 @@
 import csv
-import pickle
+from sqlalchemy.orm import sessionmaker
+from table import Loans, engine
+
+Session = sessionmaker(bind=engine)
+session = Session()
 
 
 class Loan:
-    loans_list = []
-
     def __init__(self, amount, period, interest):
         self.amount = amount
         self.period = period
         self.interest = interest
-        self.loans_list.append([self.amount, self.period, self.interest])
-        self.loan_data = []
 
     def __str__(self):
         return f"{self.amount} {self.period} {self.interest}"
@@ -20,13 +20,6 @@ class Loan:
 
     def get_loan_info(self):
         return [self.amount, self.period, self.interest]
-
-    def all_loans(self):
-        for idx, loan in enumerate(self.loans_list):
-            print(f"{idx}: {loan}")
-
-    def get_last_loan(self):
-        print(self.loans_list[-1])
 
     def get_loan_graph(self):
         print(f"Men nr. / Grazintina dalis / Likutis / Priskaiciotos Palukanos / Bendra moketina suma")
@@ -47,6 +40,7 @@ class Loan:
               f" {((self.amount * (self.interest / 100)) + self.amount)}")
 
     def get_data(self):
+        self.loan_data = []
         return_part = self.amount / self.period
         left_to_return = self.amount
         for idx in range(1, self.period + 1):
@@ -78,53 +72,62 @@ class Loan:
             for row in self.get_data():
                 csv_writer.writerow([row[0], row[1], row[2], row[3], row[4]])
 
-
-# paskola1 = Loan(1000, 5, 15)
-# paskola2 = Loan(2000, 12, 5)
-# paskola3 = Loan(500, 3, 9)
+# while True:
+#     choose = int(input("Choose meniu: \n\r"
+#                        " 1.Create New Loan \n\r"
+#                        " 2.Show all loans \n\r"
+#                        " 3.Show loan graph \n\r"
+#                        " 4.Get full loan info \n\r"
+#                        " 5.Modify loan \n\r"
+#                        " 6.Exit "
+#                        ))
+#     if choose == 1:
+#         amount = int(input("Enter amount"))
+#         period = int(input("Enter loan period"))
+#         interest = float(input("Enter loan interest"))
+#         loan = Loan(amount, period, interest)
+#         loan_db = Loans(amount, period, interest)
+#         session.add(loan_db)
+#         session.commit()
+#         loan.to_csv()
 #
-# paskola3.all_loans()
-# paskola2.get_loan_graph()
-
-
-loan_list = []
-
-while True:
-    # with open("Loans.pkl", "rb") as pickle_in:
-    #     show_list = pickle.load(pickle_in)
-    #     loan_list = show_list
-    choose = int(input("Choose meniu: \n\r"
-                       " 1.Create New Loan \n\r"
-                       " 2.Show all loans \n\r"
-                       " 3.Get Last loan info \n\r"
-                       " 4.Show all created loans \n\r "
-                       "5.Exit"
-                       ))
-    if choose == 1:
-        amount = int(input("Enter amount"))
-        period = int(input("Enter loan period"))
-        interest = float(input("Enter loan interest"))
-        loan = Loan(amount, period, interest)
-        loan_list.append(loan)
-        loan.to_csv()
-
-    elif choose == 2:
-        loan.all_loans()
-
-    elif choose == 3:
-        loan.get_last_loan()
-
-    elif choose == 4:
-        for loan in loan_list:
-            print(loan)
-
-    elif choose == 5:
-        # with open("Loans.pkl", "wb") as pickle_out:
-        #     pickle.dump(loan_list, pickle_out)
-        break
-
-    else:
-        print("Wrong input, try again")
-
+#     elif choose == 2:
+#         all_loans = session.query(Loans).all()
+#         for loan in all_loans:
+#             print(loan)
+#
+#     elif choose == 3:
+#         all_loans = session.query(Loans).all()
+#         for loan in all_loans:
+#             print(loan)
+#         choose = int(input("Choose loan:"))
+#         get_loan = session.query(Loans).get(choose)
+#         init_loan = Loan(get_loan.amount, get_loan.period, get_loan.interest)
+#         init_loan.get_loan_graph()
+#
+#     elif choose == 4:
+#         all_loans = session.query(Loans).all()
+#         for loan in all_loans:
+#             print(loan)
+#         choose = int(input("Choose loan:"))
+#         get_loan = session.query(Loans).get(choose)
+#         init_loan = Loan(get_loan.amount, get_loan.period, get_loan.interest)
+#         print(init_loan.get_full_info())
+#
+#     elif choose == 5:
+#         all_loans = session.query(Loans).all()
+#         for loan in all_loans:
+#             print(loan)
+#         choose = int(input("Choose loan:"))
+#         get_loan = session.query(Loans).get(choose)
+#         get_loan.amount = int(input("Enter loan amount: "))
+#         get_loan.period = int(input("Enter loan period: "))
+#         get_loan.interest = float(input("Enter loan interest: "))
+#
+#     elif choose == 6:
+#         break
+#
+#     else:
+#         print("Wrong input, try again")
 
 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<p>Amount: {{ loan_to_show[0] }}</p>
+<p>Period: {{ loan_to_show[1] }}</p>
+<p>Interest: {{ loan_to_show[2] }}</p>
+
+<form action="/", method="post">
+  <div class="form-group">
+    <label for="email_send">Iveskite el.pasta:</label>
+    <input type="text" class="form-control" id="email_send" name="email_send">
+  </div>
+    <button type="submit" class="btn btn-primary">Siusti i pasta</button>
+</form>
+
+
+{% for table in tables %}
+{{ table|safe }}
+{% endfor %}
+
+<br>
+<img src="data:image/png;base64, {{ plot_url }}">
+
+</body>
+</html>
