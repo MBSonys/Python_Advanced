@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prideti Testa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <a class="user" href="{{ url_for('index') }}">Home</a>
+    <div class="test_wrapper" id="test_wrapper">
+        <form class="form" id="form" action="/add-test" method="post">
+            <div id="test_table"></div>
+            <label>Number of questions</label>
+            <input id="question_count" type="number" name="count_of_questions">
+            <label>Number of answers (2-4)</label>
+            <input id="answer_count" type="number" name="count_of_answers">
+            <button id="test_button" type="button">Procced</button>
+            <label>Existing UserName</label>
+            <input type="text" name="username">
+            <label>Test Name</label>
+            <input type="text" name="test_name" size="40">
+            <input class = button_press type="submit" value="Add Test">
+        </form>
+    </div>
+</body>
+<script src="../static/dynamic.js"></script>
+</html>
