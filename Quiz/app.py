@@ -47,7 +47,7 @@ def creating_test():
             new_test_id = Tests.query.filter_by(name = test_name).first_or_404()
             for i in range(int(question_count)):
                 answer_start_number = 0
-                if answer_count == 2:
+                if int(answer_count) == 2:
                     new_question = Questions(
                         test_id = new_test_id.id, 
                         question = all_questions[i], 
@@ -59,7 +59,7 @@ def creating_test():
                     answer_start_number += 2
                     db.session.add(new_question)
                     db.session.commit()
-                elif answer_count == 3:
+                elif int(answer_count) == 3:
                     new_question = Questions(
                         test_id = new_test_id.id, 
                         question = all_questions[i], 
